@@ -11,6 +11,7 @@ Install required softwares first.
   * [HHBlits](https://github.com/soedinglab/hh-suite)
   * [GR-align](http://www0.cs.ucl.ac.uk/staff/natasa/GR-Align/index.html)
   * [seqkit](https://github.com/shenwei356/seqkit)
+  * [GNU parallel](https://www.gnu.org/software/parallel/)
 * sequence databases
   * [swissprot](https://www.uniprot.org/downloads)
   * [Uniclust30](https://uniclust.mmseqs.com/)
@@ -50,7 +51,7 @@ Now, you are all set!
 ### make a function prediction of query protein
 If you have a single FASTA query as `query.fasta`, you can simply run below to make a prediction.
 ```
-$ prediction/x-predict.sh query.fasta
+$ prediction/predict.sh query.fasta
 ```
 The script will run,
 1. HHblits
@@ -59,8 +60,8 @@ The script will run,
 4. rank by gr-align
 5. post-processing
 
-After all, you will find `output/[query]/[query].tsv` as the result.
-It is 4-column tables showing GO ID, GO category, confidence score, and GO name
+After all, you will find `output/[query]/[query].prediction` as the result.
+It is 3-column tables showing GO ID, GO category, and confidence score.
 
 ## Reference
 Yuki Kagaya, et al., "ContactPFP: Protein function prediction using predicted contact information." (in preparation)
