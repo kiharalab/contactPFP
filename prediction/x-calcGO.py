@@ -7,13 +7,10 @@ from tqdm import tqdm
 
 
 def norm(score, min_score, max_score):
-    try:
-        return (score - min_score) / (max_score - min_score)
-    except ZeroDivisionError:
-        return 1
+    return (score / max_score)
 
 
-def gralign_to_goterm(in_file, UniAcc2UniName, annot, category, BLIST={}, cutoff=0.5):
+def gralign_to_goterm(in_file, UniAcc2UniName, annot, category, BLIST={}, top=2):
     pred_goterms = {}
     Used = []
     Skipped = []
@@ -22,15 +19,11 @@ def gralign_to_goterm(in_file, UniAcc2UniName, annot, category, BLIST={}, cutoff
         for line in f:
             l = line.split()
             try:
-                # I turned off 1.0 filtering, on purpose
-                if cutoff <= float(l[5]) <= 1.0:
-                    uniprot_id = UniAcc2UniName[l[1]]
-                    if uniprot_id in BLIST:
-                        Skipped.append(uniprot_id)
-                        continue
-                    score = float(l[5])
-                else:
+                uniprot_id = UniAcc2UniName[l[1]]
+                if uniprot_id in BLIST:
+                    Skipped.append(uniprot_id)
                     continue
+                score = float(l[5])
             except ValueError:
                 continue
             try:
@@ -39,12 +32,14 @@ def gralign_to_goterm(in_file, UniAcc2UniName, annot, category, BLIST={}, cutoff
                 NotFound.append(uniprot_id)
                 goterms = []
                 continue
+            if not goterms: continue
             for goterm in goterms:
                 try:
                     pred_goterms[goterm] += score
                 except KeyError:
                     pred_goterms[goterm] = score
             Used.append(uniprot_id)
+            if len(Used) >= top: break
 
     FPC_goterms = {"f": {}, "p": {}, "c": {}}
     for k, v in sorted(pred_goterms.items(), key=lambda x: -x[1]):
