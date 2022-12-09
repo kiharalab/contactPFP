@@ -2,8 +2,8 @@
 
 import sys
 import os
-from multiprocessing import Pool
-from tqdm import tqdm
+
+SCRIPT_DIR=os.path.dirname(os.path.abspath(__file__))
 
 
 def norm(score, min_score, max_score):
@@ -70,18 +70,18 @@ def main():
 
     # load stuffs
     UniAcc2UniName = {}  # Q8YW84 -> NDHM_NOSS1
-    with open("prediction/knowledge/10-id.txt") as f:
+    with open(f"{SCRIPT_DIR}/knowledge/10-id.txt") as f:
         f.readline()
         for line in f:
             l = line.split()
             UniAcc2UniName[l[0]] = l[2] if len(l) == 3 else l[1]
     file_name_conv = {}
-    with open("prediction/knowledge/mapping_final.txt") as f:
+    with open(f"{SCRIPT_DIR}/knowledge/mapping_final.txt") as f:
         for line in f:
             l = line.split()
             file_name_conv[l[0]] = l[1]
     category = {}  # 0000001 -> p
-    with open("prediction/knowledge/category.txt") as f:
+    with open(f"{SCRIPT_DIR}/knowledge/category.txt") as f:
         for line in f:
             l = line.split()
             category[l[0]] = l[1]
@@ -89,7 +89,7 @@ def main():
     # ID converter2
     NEW2OLD = {}
     OLD2NEW = {}
-    with open("prediction/knowledge/10-id.txt") as f:
+    with open(f"{SCRIPT_DIR}/knowledge/10-id.txt") as f:
         f.readline()
         for line in f:
             l = line.split()

@@ -1,6 +1,6 @@
 ### https://raw.github.com/github/gitignore/b0012e4930d0a8c350254a3caeedf7441ea286a3/Global/macOS.gitignore
 
-# 
+#
 output
 FASTA
 
@@ -10,7 +10,8 @@ FASTA
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -173,4 +174,10 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-
+# User define
+bin/
+Database/
+trRosetta
+trRosetta/
+uniclust30
+uniclust30/
